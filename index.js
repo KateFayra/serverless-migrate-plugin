@@ -176,6 +176,7 @@ class MigratePlugin {
         process.exit(1);
       }
       console.log('create', p);
+      process.exit(0);
     });
   }
 
