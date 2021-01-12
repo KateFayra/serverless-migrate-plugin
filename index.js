@@ -135,6 +135,7 @@ class MigratePlugin {
       }
 
       console.log(`migration ${chalk.cyan('up')}: completed`);
+      process.exit(0);
     });
   }
 
@@ -145,6 +146,7 @@ class MigratePlugin {
       }
 
       console.log(`migration ${chalk.cyan('down')}: completed`);
+      process.exit(0);
     });
   }
 
@@ -155,6 +157,7 @@ class MigratePlugin {
     }
 
     set.migrations.forEach((m) => console.log(...this.getMigrationStatusData(m, set)));
+    process.exit(0);
   }
 
   create() {
