@@ -100,12 +100,17 @@ class MigratePlugin {
     };
 
     this.config = this.serverless.service.custom ? this.serverless.service.custom.migrate : {};
-    process.env = this.serverless.service.provider.environment = {
+    process.env = {
       ...process.env,
       ...this.serverless.service.provider.environment,
       ...this.config.environment,
     };
     process.env.SERVERLESS_ROOT_PATH = this.serverless.config.servicePath;
+
+    this.serverless.service.provider.environment = {
+      ...this.serverless.service.provider.environment,
+      ...this.config.environment,
+    };
   }
 
   runCommand(cmd) {
