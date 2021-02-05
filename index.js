@@ -98,18 +98,6 @@ class MigratePlugin {
       'migrate:create:setup': this.setupMigration.bind(this),
       'migrate:create:run': this.runCommand.bind(this, 'create'),
     };
-
-    this.config = this.serverless.service.custom ? this.serverless.service.custom.migrate : {};
-    this.serverless.service.provider.environment = {
-      ...this.serverless.service.provider.environment,
-      ...this.config.environment,
-    };
-
-    process.env = {
-      ...process.env,
-      ...this.serverless.service.provider.environment,
-    };
-    process.env.SERVERLESS_ROOT_PATH = this.serverless.config.servicePath;
   }
 
   runCommand(cmd) {
@@ -118,6 +106,15 @@ class MigratePlugin {
   }
 
   setupMigration() {
+    this.config = this.serverless.service.custom ? this.serverless.service.custom.migrate : {};
+
+    process.env = {
+      ...process.env,
+      ...this.serverless.service.provider.environment,
+      ...this.config.environment,
+      SERVERLESS_ROOT_PATH: this.serverless.config.servicePath,
+    };
+
     this.migration = new Promise((resolve, reject) => {
       migrate.load({
         stateStore: this.stateStore,
